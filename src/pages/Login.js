@@ -38,9 +38,9 @@ class Login extends Component {
     event.preventDefault();
     const { name } = this.state;
     this.setState(
-      ({
+      {
         loading: true,
-      }),
+      },
     );
     await createUser({ name });
     this.setState(
