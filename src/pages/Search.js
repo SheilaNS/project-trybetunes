@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import Header from '../components/Header';
+import Loading from '../components/Loading';
+import searchAlbumsAPI from '../services/searchAlbumsAPI';
 
 class Search extends Component {
   constructor() {
@@ -7,6 +10,9 @@ class Search extends Component {
     this.state = {
       disabled: true,
       name: '',
+      searchList: [],
+      loading: false,
+      searchOK: true,
     };
   }
 
@@ -30,33 +36,91 @@ class Search extends Component {
     }
   }
 
+  handleSearch = async (event) => {
+    event.preventDefault();
+    this.setState(
+      {
+        loading: true,
+      },
+    );
+    const tuneSearch = await searchAlbumsAPI(event.target.value);
+    this.setState(
+      {
+        disabled: true,
+        searchList: tuneSearch,
+        searchOK: tuneSearch.length === 0,
+        loading: false,
+      },
+    );
+  }
+
   render() {
-    const { disabled, name } = this.state;
-    return (
-      <>
-        <Header />
-        <div data-testid="page-search">
-          <form>
-            <label htmlFor="search">
-              <input
-                data-testid="search-artist-input"
-                type="text"
-                id="search"
-                name="search"
-                onChange={ this.handleChange }
-                value={ name }
-              />
-            </label>
-            <button
-              type="submit"
-              data-testid="search-artist-button"
-              disabled={ disabled }
+    const { disabled, name, loading, searchList, searchOK } = this.state;
+
+    const result = searchList
+      .map((album, index) => {
+        if (index === 0) {
+          return (
+            <div key={ album.collectionId }>
+              <p>
+                Resultado de álbuns de:
+                {' '}
+                {name}
+              </p>
+              <p>{album.collectionName}</p>
+              <Link
+                to={ `/album/${album.collectionId}` }
+                data-testid={ `link-to-album-${album.collectionId}` }
+              >
+                Ver álbum
+              </Link>
+            </div>
+          );
+        }
+        return (
+          <div key={ album.collectionId }>
+            <p>{album.collectionName}</p>
+            <Link
+              to={ `/album/${album.collectionId}` }
+              data-testid={ `link-to-album-${album.collectionId}` }
             >
-              Perquisar
-            </button>
-          </form>
-        </div>
-      </>
+              Ver álbum
+            </Link>
+          </div>
+        );
+      });
+
+    return (
+      <div data-testid="page-search">
+        <Header />
+        {
+          loading ? <Loading />
+            : (
+              <form>
+                <label htmlFor="search">
+                  <input
+                    data-testid="search-artist-input"
+                    type="text"
+                    id="search"
+                    name="search"
+                    onChange={ this.handleChange }
+                  />
+                </label>
+                <button
+                  type="submit"
+                  data-testid="search-artist-button"
+                  disabled={ disabled }
+                  value={ name }
+                  onClick={ this.handleSearch }
+                >
+                  Perquisar
+                </button>
+              </form>
+            )
+        }
+        {searchOK && <p>Nenhum álbum foi encontrado</p>}
+        {result || ''}
+      </div>
     );
   }
 }
