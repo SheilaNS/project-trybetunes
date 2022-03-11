@@ -13,6 +13,7 @@ class Search extends Component {
       searchList: [],
       loading: false,
       searchOK: true,
+      click: false,
     };
   }
 
@@ -41,6 +42,7 @@ class Search extends Component {
     this.setState(
       {
         loading: true,
+        click: true,
       },
     );
     const tuneSearch = await searchAlbumsAPI(event.target.value);
@@ -55,7 +57,7 @@ class Search extends Component {
   }
 
   render() {
-    const { disabled, name, loading, searchList, searchOK } = this.state;
+    const { disabled, name, loading, searchList, searchOK, click } = this.state;
 
     const result = searchList
       .map((album, index) => {
@@ -83,6 +85,7 @@ class Search extends Component {
             <Link
               to={ `/album/${album.collectionId}` }
               data-testid={ `link-to-album-${album.collectionId}` }
+              albumId={ album.collectionId }
             >
               Ver álbum
             </Link>
@@ -118,7 +121,7 @@ class Search extends Component {
               </form>
             )
         }
-        {searchOK && <p>Nenhum álbum foi encontrado</p>}
+        {searchOK && click ? <p>Nenhum álbum foi encontrado</p> : ''}
         {result || ''}
       </div>
     );
