@@ -19,11 +19,10 @@ class MusicCard extends Component {
       loading: true,
     });
     await favorite.addSong(musicInfo);
-    this.setState(
-      {
-        loading: false,
-      },
-    );
+    this.setState({
+      loading: false,
+    });
+    await favorite.getFavoriteSongs();
   };
 
   render() {
@@ -54,7 +53,7 @@ class MusicCard extends Component {
                     type="checkbox"
                     data-testid={ `checkbox-music-${trackId}` }
                     checked={ checked }
-                    onClick={ this.handleSave }
+                    onChange={ this.handleSave }
                   />
                 </label>
               </>
@@ -70,7 +69,7 @@ MusicCard.propTypes = {
   trackName: PropTypes.string.isRequired,
   previewUrl: PropTypes.string.isRequired,
   trackId: PropTypes.number.isRequired,
-  musicInfo: PropTypes.arrayOf(PropTypes.object).isRequired,
+  musicInfo: PropTypes.arrayOf.isRequired,
 };
 
 export default MusicCard;
