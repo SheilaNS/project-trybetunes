@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import Header from '../components/Header';
 import getMusics from '../services/musicsAPI';
 import MusicCard from '../components/MusicCard';
+import Loading from '../components/Loading';
+// import * as favorite from '../services/favoriteSongsAPI';
 
 class Album extends Component {
   constructor() {
@@ -10,6 +12,8 @@ class Album extends Component {
     this.state = {
       musics: [],
       albumInfo: {},
+      loading: true,
+      // favoriteList: [],
     };
   }
 
@@ -23,12 +27,14 @@ class Album extends Component {
       {
         albumInfo,
         musics: album.filter((_music, index) => index !== 0),
+        loading: false,
+        // favoriteList: await favorite.getFavoriteSongs(),
       },
     );
   }
 
   render() {
-    const { musics, albumInfo } = this.state;
+    const { musics, albumInfo, loading } = this.state;
     const playList = musics
       .map((music) => (
         <MusicCard
@@ -37,23 +43,31 @@ class Album extends Component {
           previewUrl={ music.previewUrl }
           musicInfo={ music }
           trackId={ music.trackId }
+          // checked={ favoriteList
+          //   .some((fav) => +fav.trackId === +music.trackId) }
         />));
     return (
       <>
         <Header />
-        <div data-testid="page-album">
-          <p data-testid="artist-name">
-            Artista:
-            {' '}
-            {albumInfo.artistName}
-          </p>
-          <p data-testid="album-name">
-            Álbum:
-            {' '}
-            {albumInfo.collectionName}
-          </p>
-          {playList}
-        </div>
+        {
+          loading
+            ? <Loading />
+            : (
+              <div data-testid="page-album">
+                <p data-testid="artist-name">
+                  Artista:
+                  {' '}
+                  {albumInfo.artistName}
+                </p>
+                <p data-testid="album-name">
+                  Álbum:
+                  {' '}
+                  {albumInfo.collectionName}
+                </p>
+                {playList}
+              </div>
+            )
+        }
       </>
     );
   }
