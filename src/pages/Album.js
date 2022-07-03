@@ -4,7 +4,6 @@ import Header from '../components/Header';
 import getMusics from '../services/musicsAPI';
 import MusicCard from '../components/MusicCard';
 import Loading from '../components/Loading';
-// import * as favorite from '../services/favoriteSongsAPI';
 
 class Album extends Component {
   constructor() {
@@ -13,7 +12,6 @@ class Album extends Component {
       musics: [],
       albumInfo: {},
       loading: true,
-      // favoriteList: [],
     };
   }
 
@@ -28,7 +26,6 @@ class Album extends Component {
         albumInfo,
         musics: album.filter((_music, index) => index !== 0),
         loading: false,
-        // favoriteList: await favorite.getFavoriteSongs(),
       },
     );
   }
@@ -43,8 +40,6 @@ class Album extends Component {
           previewUrl={ music.previewUrl }
           musicInfo={ music }
           trackId={ music.trackId }
-          // checked={ favoriteList
-          //   .some((fav) => +fav.trackId === +music.trackId) }
         />));
     return (
       <>
