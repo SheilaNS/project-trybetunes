@@ -30,7 +30,7 @@ export const createUser = (user) => new Promise((resolve) => {
   const emptyUser = {
     name: '',
     email: '',
-    image: '',
+    image: 'https://img.freepik.com/free-icon/user_318-790139.jpg?w=2000',
     description: '',
   };
   saveUser({ ...emptyUser, ...user });
