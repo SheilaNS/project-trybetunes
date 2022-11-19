@@ -2,7 +2,7 @@
 
 ## :page_facing_up: Sobre
 
-Projeto obrigatório do Bloco 5 - Ciclo de Vida de Componentes e React Router do curso de Desenvolvimento Web da [Trybe](https://www.betrybe.com).<br>
+Módulo de Front-End | Projeto do Bloco 12 - Ciclo de Vida de Componentes e React Router do curso de Desenvolvimento Web da [Trybe](https://www.betrybe.com).<br>
 Uma aplicação para pesquisar e listar álbuns/músicas de várias bandas e artistas, ouvir um preview de 29 segundos de cada música e fazer uma lista das suas músicas favoritas. Também é possível personalizar seu perfil de usuário.<br>
 API utilizada neste projeto: [iTunes Search API](https://developer.apple.com/library/archive/documentation/AudioVideo/Conceptual/iTuneSearchAPI/index.html#//apple_ref/doc/uid/TP40017632-CH3-SW1)<br>
 Desenvolvido com ReactJs e TailwindCSS.<br><br>
